@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+python-decouple
+databases
+sqlalchemy
+alembic
+asyncpg
+psycopg2-binary
+pydantic
+pyjwt
+passlib
+asyncclick
