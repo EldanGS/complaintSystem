@@ -14,7 +14,7 @@ router = APIRouter(tags=["Users"])
 @router.get(
     "/users",
     dependencies=[Depends(oauth_scheme), Depends(is_admin)],
-    response_model=List[UserOut]
+    response_model=List[UserOut],
 )
 async def get_users(email: Optional[str] = None):
     if email:
@@ -25,7 +25,7 @@ async def get_users(email: Optional[str] = None):
 @router.put(
     "/users/{user_id}/{role}",
     dependencies=[Depends(oauth_scheme), Depends(is_admin)],
-    status_code=204
+    status_code=204,
 )
 async def change_user_role(user_id: int, role: RoleType):
     await UserManager.change_role(user_id, role)

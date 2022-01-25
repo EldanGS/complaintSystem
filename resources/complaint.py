@@ -4,15 +4,18 @@ from fastapi import APIRouter, Depends
 from starlette.requests import Request
 
 from managers.auth import oauth_scheme
-from managers.complaint import ComplaintManager, is_complainer, is_admin, \
-    is_approver
+from managers.complaint import ComplaintManager, is_complainer, is_admin, is_approver
 from schemas.request.complaint import ComplaintIn
 from schemas.response.complaint import ComplaintOut
 
 router = APIRouter(tags=["Complaints"])
 
 
-@router.get("/complaints", dependencies=[Depends(oauth_scheme)], response_model=List[ComplaintOut])
+@router.get(
+    "/complaints",
+    dependencies=[Depends(oauth_scheme)],
+    response_model=List[ComplaintOut],
+)
 async def get_all_complaints(request: Request):
     user = request.state.user
     return await ComplaintManager.get_complaints(user)
@@ -21,7 +24,7 @@ async def get_all_complaints(request: Request):
 @router.post(
     "/complaints",
     dependencies=[Depends(oauth_scheme), Depends(is_complainer)],
-    response_model=ComplaintOut
+    response_model=ComplaintOut,
 )
 async def create_complaint(request: Request, complaint: ComplaintIn):
     user = request.state.user
@@ -31,7 +34,7 @@ async def create_complaint(request: Request, complaint: ComplaintIn):
 @router.delete(
     "/complaints/{complaint_id}",
     dependencies=[Depends(oauth_scheme), Depends(is_admin)],
-    status_code=204
+    status_code=204,
 )
 async def delete_complaint(complaint_id: int):
     await ComplaintManager.delete(complaint_id)

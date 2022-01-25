@@ -26,6 +26,6 @@ async def create_user(first_name, last_name, email, phone, iban, password):
     await UserManager.register(user_data)
     await database.disconnect()
 
+
 if __name__ == "__main__":
     create_user(_anyio_backend="asyncio")
-
