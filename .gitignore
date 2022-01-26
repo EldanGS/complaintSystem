@@ -130,3 +130,7 @@ dmypy.json
 
 # Pycharm
 .idea/
+
+# photos
+
+temp_files/*

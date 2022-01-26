@@ -1,8 +1,16 @@
+import os
+import uuid
+
 from fastapi import HTTPException
 from starlette.requests import Request
 
+from constants import TEMP_FILE_FOLDER
 from db import database
 from models import complaint, RoleType, State
+from services.s3 import S3Service
+from utils.helpers import decode_photo
+
+s3 = S3Service()
 
 
 class ComplaintManager:
@@ -19,6 +27,13 @@ class ComplaintManager:
     async def create_complaints(user, complaint_data):
         data = complaint_data.dict()
         data["complainer_id"] = user["id"]
+        encoded_photo = data.pop("encoded_photo")
+        extension = data.pop("extension")
+        name = f"{uuid.uuid4()}.{extension}"
+        path = os.path.join(TEMP_FILE_FOLDER, name)
+        decode_photo(path, encoded_photo)
+        data["photo_url"] = s3.upload(path, name, extension)
+        os.remove(path)
         id_: int = await database.execute(complaint.insert().values(**data))
         return await database.fetch_one(complaint.select().where(complaint.c.id == id_))
 

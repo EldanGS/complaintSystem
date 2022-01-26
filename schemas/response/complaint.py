@@ -6,6 +6,7 @@ from schemas.base import ComplaintBase
 
 class ComplaintOut(ComplaintBase):
     id: int
-
     created_at: datetime
     status: State
+    photo_url: str
+

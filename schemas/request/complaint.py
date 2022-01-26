@@ -2,4 +2,6 @@ from schemas.base import ComplaintBase
 
 
 class ComplaintIn(ComplaintBase):
-    pass
+    encoded_photo: str
+    extension: str
+
