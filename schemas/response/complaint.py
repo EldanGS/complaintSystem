@@ -9,4 +9,3 @@ class ComplaintOut(ComplaintBase):
     created_at: datetime
     status: State
     photo_url: str
-

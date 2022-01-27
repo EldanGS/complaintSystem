@@ -16,25 +16,13 @@ class SESService:
         )
 
     def send_email(self, subject, to_address, text_data):
-        body = {
-            "Text": {
-                "Data": text_data,
-                "Charset": "UTF-8"
-            }
-        }
+        body = {"Text": {"Data": text_data, "Charset": "UTF-8"}}
         self.ses.send_email(
-            Source="yoursource@email.com",
+            Source="eldan.abdrashim@gmail.com",
             Destination={
                 "ToAddresses": to_address,
                 "CcAddresses": [],
                 "BccAddresses": [],
             },
-            Message={
-                "Subject": {
-                    "Data": subject,
-                    "Charset": "UTF-8"
-                },
-                "Body": body
-            }
+            Message={"Subject": {"Data": subject, "Charset": "UTF-8"}, "Body": body},
         )
-
